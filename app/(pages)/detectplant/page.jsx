@@ -10,6 +10,8 @@ const PlantDetectionApp = () => {
   const [userInput, setUserInput] = useState("");
   const [advice, setAdvice] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const [isAdviceLoading, setIsAdviceLoading] = useState(false);
+  const [showNewPlantButton, setShowNewPlantButton] = useState(false);
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
@@ -68,11 +70,54 @@ const PlantDetectionApp = () => {
   };
 
   const handleAdviceRequest = async () => {
-    if (!userInput) return;
+    if (!userInput) {
+      alert("Please describe your situation before requesting advice.");
+      return;
+    }
 
-    setAdvice(
-      "This is a poisonous plant. Seek immediate medical attention if ingested."
-    );
+    setIsAdviceLoading(true);
+
+    try {
+      const response = await fetch("/api/getadvice", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          plantName: plantName,
+          situation: userInput,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to get advice");
+      }
+
+      const data = await response.json();
+      setAdvice(data.advice);
+      setShowNewPlantButton(true);
+    } catch (error) {
+      console.error("Error:", error);
+      alert(error.message);
+    } finally {
+      setIsAdviceLoading(false);
+    }
+  };
+
+  const handleNewPlant = () => {
+    setFile(null);
+    setPreview(null);
+    setResult(null);
+    setPlantName("");
+    setUserInput("");
+    setAdvice("");
+    setShowNewPlantButton(false);
+
+    // Clear the file input
+    const fileInput = document.querySelector('input[type="file"]');
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   return (
@@ -115,7 +160,7 @@ const PlantDetectionApp = () => {
           </p>
         </div>
       )}
-      {result === 2 && (
+      {result === 2 && !advice && (
         <div className="mb-4">
           <textarea
             placeholder="What happened? Describe your situation..."
@@ -127,8 +172,9 @@ const PlantDetectionApp = () => {
           <button
             onClick={handleAdviceRequest}
             className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+            disabled={isAdviceLoading}
           >
-            Get Advice
+            {isAdviceLoading ? "Getting Advice..." : "Get Advice"}
           </button>
         </div>
       )}
@@ -137,6 +183,14 @@ const PlantDetectionApp = () => {
           <h2 className="text-lg font-semibold">Advice</h2>
           <p>{advice}</p>
         </div>
+      )}
+      {showNewPlantButton && (
+        <button
+          onClick={handleNewPlant}
+          className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
+        >
+          Look Up New Plant
+        </button>
       )}
     </div>
   );
