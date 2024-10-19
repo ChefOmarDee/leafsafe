@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server';
+import { GetAdvice } from '@/app/_lib/openai/getadvice';
 
 export async function POST(request) {
   try {
@@ -8,11 +9,26 @@ export async function POST(request) {
     console.log("Received plant name:", plantName);
     console.log("Received situation:", situation);
 
-    // In a real-world scenario, you might use this data to generate specific advice
-    // For this example, we'll always return the same advice
-    const advice = "Seek immediate medical attention.";
+    const adviceResponse = await GetAdvice(plantName, situation);
 
-    return NextResponse.json({ advice }, { status: 200 });
+    // Parse the bullet points into an array
+    const adviceArray = adviceResponse
+        .split('-')
+        .map(item => {
+            // Replace spaces and hyphens in phone numbers to prevent splitting
+            return item
+            .replace(/\b(\d{1,3})[\s\-](\d{1,3})[\s\-](\d{1,4})\b/g, '$1\u00A0$2\u00A0$3')  // Format 1 800 222 1222
+            .replace(/\b(\d{1,3})[\-](\d{1,4})\b/g, '$1\u2011$2');  // Format 911
+        })
+        .map(item => item.trim())  // Trim whitespace
+        .filter(item => item !== '');  // Remove any empty items
+
+    // Structure the response
+    const structuredAdvice = {
+      advicePoints: adviceArray
+    };
+
+    return NextResponse.json({ advice: structuredAdvice }, { status: 200 });
   } catch (error) {
     console.error("Error in getadvice API:", error);
     return NextResponse.json({ error: "Failed to get advice" }, { status: 500 });
