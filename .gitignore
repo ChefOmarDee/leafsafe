@@ -2,7 +2,9 @@
 .env
 *.env
 # ignores all files
-#  uploaded to upload folder
+#  uploaded to upload folder except .gitignore files
+!.gitignore
+
 **/upload/*
 # dependencies
 /node_modules
