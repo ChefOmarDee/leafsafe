@@ -3,7 +3,7 @@
 *.env
 # ignores all files
 #  uploaded to upload folder
-# **/upload/*
+**/upload/*
 # dependencies
 /node_modules
 /.pnp
