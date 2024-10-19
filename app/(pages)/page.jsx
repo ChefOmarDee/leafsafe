@@ -17,18 +17,18 @@ const Home = () => {
       />
       <div className="relative z-10 min-h-screen flex items-center justify-center">
         <Head>
-          <title>Safeleaf: AI-Powered Plant Safety Assistant</title>
+          <title>LeafSafe: AI-Powered Plant Safety Assistant</title>
           <meta
             name="description"
-            content="Safeleaf: Your AI-powered companion for plant identification and safety"
+            content="LeafSafe: Your AI-powered companion for plant identification and safety"
           />
         </Head>
         <main className="text-center p-8 rounded-lg max-w-2xl md:bg-transparent bg-black bg-opacity-75">
           <h1 className="text-4xl font-bold mb-6 text-green-300">
-            Welcome to Safeleaf
+            Welcome to LeafSafe
           </h1>
           <p className="text-xl mb-6 text-white md:text-black">
-            SafeLeaf is an AI-powered web app that helps users identify plants
+            LeafSafe is an AI-powered web app that helps users identify plants
             as edible, inedible, or poisonous using image recognition. It offers
             immediate advice on treating symptoms from harmful plants and
             provides a rich plant database as well as a community of nature

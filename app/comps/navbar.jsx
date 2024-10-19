@@ -9,7 +9,7 @@ const Navbar = () => {
     <nav className="p-4">
       <div className="container mx-auto flex justify-between items-center">
         <Link href="/" className="text-white text-3xl font-bold">
-          PlantSafe
+          LeafSafe
         </Link>
         <div className="hidden md:flex space-x-8">
           <Link href="/" className="text-white hover:text-green-200 text-xl">
