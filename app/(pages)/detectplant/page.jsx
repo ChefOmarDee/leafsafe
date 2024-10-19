@@ -1,6 +1,7 @@
 "use client";
 import React, { useState } from "react";
 import { Upload } from "lucide-react";
+import Navbar from "@/app/comps/navbar";
 
 const PlantDetectionApp = () => {
   const [file, setFile] = useState(null);
@@ -122,86 +123,93 @@ const PlantDetectionApp = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-green-400 to-green-200">
-      <div className="max-w-md mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
-        <h1 className="text-2xl font-bold mb-4">Plant Detection App</h1>
-        <div className="mb-6">
-          <input
-            id="fileInput"
-            type="file"
-            onChange={handleFileChange}
-            accept=".png,.jpeg,.jpg,.tiff,.bmp"
-            className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out hover:border-gray-400 hover:shadow-md"
-          />
-        </div>
+    <div className="min-h-screen flex flex-col bg-gradient-to-b from-green-400 to-green-200">
+      <Navbar />
+      <div className="flex-grow py-10">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-xl">
+            <h1 className="text-2xl font-bold mb-6 text-center text-green-800">
+              Plant Detection App
+            </h1>
+            <div className="mb-6">
+              <input
+                id="fileInput"
+                type="file"
+                onChange={handleFileChange}
+                accept=".png,.jpeg,.jpg,.tiff,.bmp"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out hover:border-gray-400 hover:shadow-md"
+              />
+            </div>
 
-        {preview && (
-          <div className="mb-4">
-            <img
-              src={preview}
-              alt="Plant preview"
-              className="w-full rounded-lg"
-            />
-          </div>
-        )}
-        <button
-          onClick={handleSubmit}
-          className="w-full mb-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 flex items-center justify-center"
-          disabled={isLoading}
-        >
-          <Upload className="mr-2 h-4 w-4" />
-          {isLoading ? "Processing..." : "Upload and Detect"}
-        </button>
-        {result !== null && (
-          <div className="mb-4 p-4 border rounded-md bg-gray-100">
-            <h2 className="text-lg font-semibold">
-              {result === 0 && "🍎 Edible"}
-              {result === 1 && "🤢 Inedible"}
-              {result === 2 && "☠️ Poisonous"}
-            </h2>
-            <p>
-              Plant detected: <strong>{plantName}</strong>
-            </p>
-          </div>
-        )}
-        {result === 2 && !advice && (
-          <div className="mb-4">
-            <textarea
-              placeholder="What happened? Describe your situation..."
-              value={userInput}
-              onChange={(e) => setUserInput(e.target.value)}
-              className="w-full p-2 border border-gray-300 rounded mb-2"
-              rows={4}
-            />
+            {preview && (
+              <div className="mb-4">
+                <img
+                  src={preview}
+                  alt="Plant preview"
+                  className="w-full rounded-lg"
+                />
+              </div>
+            )}
             <button
-              onClick={handleAdviceRequest}
-              className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-              disabled={isAdviceLoading}
+              onClick={handleSubmit}
+              className="w-full mb-4 bg-green-500 text-white p-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 ease-in-out flex items-center justify-center"
+              disabled={isLoading}
             >
-              {isAdviceLoading ? "Getting Advice..." : "Get Advice"}
+              <Upload className="mr-2 h-5 w-5" />
+              {isLoading ? "Processing..." : "Upload and Detect"}
             </button>
+            {result !== null && (
+              <div className="mb-4 p-4 border rounded-md bg-gray-100">
+                <h2 className="text-lg font-semibold">
+                  {result === 0 && "🍎 Edible"}
+                  {result === 1 && "🤢 Inedible"}
+                  {result === 2 && "☠️ Poisonous"}
+                </h2>
+                <p>
+                  Plant detected: <strong>{plantName}</strong>
+                </p>
+              </div>
+            )}
+            {result === 2 && !advice && (
+              <div className="mb-4">
+                <textarea
+                  placeholder="What happened? Describe your situation..."
+                  value={userInput}
+                  onChange={(e) => setUserInput(e.target.value)}
+                  className="w-full p-2 border border-gray-300 rounded mb-2"
+                  rows={4}
+                />
+                <button
+                  onClick={handleAdviceRequest}
+                  className="w-full bg-green-500 text-white p-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 ease-in-out"
+                  disabled={isAdviceLoading}
+                >
+                  {isAdviceLoading ? "Getting Advice..." : "Get Advice"}
+                </button>
+              </div>
+            )}
+            {advice && advice.length > 0 && (
+              <div className="mb-4 p-4 border rounded-md bg-yellow-100">
+                <h2 className="text-lg font-semibold mb-2">Advice</h2>
+                <ul className="list-disc pl-5">
+                  {advice.map((point, index) => (
+                    <li key={index} className="mb-1">
+                      {point}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {showNewPlantButton && (
+              <button
+                onClick={handleNewPlant}
+                className="w-full bg-green-500 text-white p-3 rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition duration-200 ease-in-out"
+              >
+                Look Up New Plant
+              </button>
+            )}
           </div>
-        )}
-        {advice && advice.length > 0 && (
-          <div className="mb-4 p-4 border rounded-md bg-yellow-100">
-            <h2 className="text-lg font-semibold mb-2">Advice</h2>
-            <ul className="list-disc pl-5">
-              {advice.map((point, index) => (
-                <li key={index} className="mb-1">
-                  {point}
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
-        {showNewPlantButton && (
-          <button
-            onClick={handleNewPlant}
-            className="w-full bg-green-500 text-white p-2 rounded hover:bg-green-600"
-          >
-            Look Up New Plant
-          </button>
-        )}
+        </div>
       </div>
     </div>
   );

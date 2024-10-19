@@ -17,7 +17,7 @@ export async function POST(request) {
         .map(item => {
             // Replace spaces and hyphens in phone numbers to prevent splitting
             return item
-            .replace(/\b(\d{1,3})[\s\-](\d{1,3})[\s\-](\d{1,4})\b/g, '$1\u00A0$2\u00A0$3')  // Format 1 800 222 1222
+            .replace(/\b(\d{1,3})[\s\-](\d{1,3})[\s\-](\d{1,4})\b/g, '($1) $2-$3')
             .replace(/\b(\d{1,3})[\-](\d{1,4})\b/g, '$1\u2011$2');  // Format 911
         })
         .map(item => item.trim())  // Trim whitespace
