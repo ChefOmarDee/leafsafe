@@ -1,5 +1,4 @@
 const path = require("path");
-const fs = require('fs');
 const axios = require('axios');
 const dotenv = require("dotenv");
 
