@@ -35,7 +35,7 @@ const Home = () => {
             enthusiasts for safe exploration of the great outdoors.
           </p>
           <Link
-            href="/yoma"
+            href="/detectplant"
             className="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded"
           >
             Start Exploring
