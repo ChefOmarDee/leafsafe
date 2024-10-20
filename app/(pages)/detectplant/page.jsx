@@ -128,7 +128,7 @@ const PlantDetectionApp = () => {
 			<div className="flex-grow py-10">
 				<div className="container mx-auto px-4">
 					<div className="max-w-md w-full mx-auto p-6 bg-white rounded-lg shadow-xl">
-						<h1 className="text-2xl font-bold mb-6 text-center text-green-800">
+						<h1 className="text-2xl font-bold mb-6 text-center text-black">
 							Plant Detection App
 						</h1>
 						<div className="mb-6">
@@ -137,7 +137,7 @@ const PlantDetectionApp = () => {
 								type="file"
 								onChange={handleFileChange}
 								accept=".png,.jpeg,.jpg,.tiff,.bmp, .jpeg, .jfif"
-								className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-gray-700 focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out hover:border-gray-400 hover:shadow-md"
+								className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm bg-white text-black focus:outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-500 transition duration-200 ease-in-out hover:border-gray-400 hover:shadow-md"
 							/>
 						</div>
 
@@ -159,7 +159,7 @@ const PlantDetectionApp = () => {
 							{isLoading ? "Processing..." : "Upload and Detect"}
 						</button>
 						{result !== null && (
-							<div className="mb-4 p-4 border rounded-md bg-gray-100">
+							<div className="mb-4 p-4 border rounded-md bg-gray-100 text-black">
 								<h2 className="text-lg font-semibold">
 									{result === 0 && "🍎 Edible"}
 									{result === 1 && "🤢 Inedible"}
@@ -176,7 +176,7 @@ const PlantDetectionApp = () => {
 									placeholder="What happened? Describe your situation..."
 									value={userInput}
 									onChange={(e) => setUserInput(e.target.value)}
-									className="w-full p-2 border border-gray-300 rounded mb-2"
+									className="w-full p-2 border border-gray-300 rounded mb-2 text-black"
 									rows={4}
 								/>
 								<button
@@ -189,7 +189,7 @@ const PlantDetectionApp = () => {
 							</div>
 						)}
 						{advice && advice.length > 0 && (
-							<div className="mb-4 p-4 border rounded-md bg-yellow-100">
+							<div className="mb-4 p-4 border rounded-md bg-yellow-100 text-black">
 								<h2 className="text-lg font-semibold mb-2">Advice</h2>
 								<ul className="list-disc pl-5">
 									{advice.map((point, index) => (
@@ -214,5 +214,4 @@ const PlantDetectionApp = () => {
 		</div>
 	);
 };
-
 export default PlantDetectionApp;
